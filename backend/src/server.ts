@@ -38,7 +38,7 @@ app.get("/metrics", async (req, res) => {
                 ...(details.percentiles &&
                   details.percentiles.p75 && {
                     [metric]: {
-                      value: details.percentiles.p75,
+                      value: parseInt(details.percentiles.p75),
                       unit: metric === "cumulative_layout_shift" ? "" : "ms",
                     },
                   }),
