@@ -1,10 +1,19 @@
+import { Container } from '@mui/material'
 import './App.css'
+import SearchInput from './components/SearchInput'
 
 function App() {
   return (
-    <>
-      CrUX App
-    </>
+    <Container>
+      <header>
+        <h2>
+          CrUX App
+        </h2>
+      </header>
+      <main>
+        <SearchInput />
+      </main>
+    </Container>
   )
 }
 
