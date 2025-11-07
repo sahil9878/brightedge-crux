@@ -1,9 +1,9 @@
-type TCrUXMetricWebVitalsCore =
+export type TCrUXMetricWebVitalsCore =
   | "interaction_to_next_paint"
   | "largest_contentful_paint"
   | "cumulative_layout_shift";
 
-type TCrUXMetrics =
+export type TCrUXMetrics =
   | "experimental_time_to_first_byte"
   | "round_trip_time"
   | "first_contentful_paint"
@@ -14,7 +14,7 @@ type TCrUXMetrics =
 
 export type TCrUXMetricValue = { value: string; unit: string };
 
-type TCrUXMetricData = Record<
+export type TCrUXMetricData = Record<
   TCrUXMetrics | TCrUXMetricWebVitalsCore,
   TCrUXMetricValue
 > &
