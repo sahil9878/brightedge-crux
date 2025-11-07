@@ -15,7 +15,8 @@ app.get("/metrics", async (req, res) => {
   }
   console.log("origins", origins);
   const originsStr = origins as string;
-  const originsPromises = originsStr.split(",").map((origin) =>
+  const originNames = originsStr.split(",");
+  const originsPromises = originNames.map((origin) =>
     fetch(`${process.env.CRUX_API_URL}?key=${process.env.GCP_API_KEY}`, {
       method: "POST",
       headers: {
@@ -30,24 +31,34 @@ app.get("/metrics", async (req, res) => {
           record: { metrics: Record<string, { percentiles: { p75: string } }> };
         }) => {
           console.log("data.record.metrics", data.record.metrics);
-          const formattedMetrics = Object.entries(data.record.metrics)
-            .map(([metric, details], index) => {
-              if (details.percentiles && details.percentiles.p75) {
-                return {
-                  metric,
-                  detauls: details.percentiles.p75,
-                  unit: metric === "cumulative_layout_shift" ? "" : "ms",
-                };
-              }
-              return null;
-            })
-            .filter((data) => data);
-          return { origin: origin.trim(), metrics: formattedMetrics };
+          const formattedMetrics = Object.entries(data.record.metrics).reduce(
+            (acc, [metric, details], index) => {
+              return {
+                ...acc,
+                ...(details.percentiles &&
+                  details.percentiles.p75 && {
+                    [metric]: {
+                      value: details.percentiles.p75,
+                      unit: metric === "cumulative_layout_shift" ? "" : "ms",
+                    },
+                  }),
+              };
+            },
+            {}
+          );
+          return formattedMetrics;
         }
       )
   );
   const responses = await Promise.allSettled(originsPromises);
-  res.json({ origins: responses });
+  const formattedResponse = responses.map((response, index) => {
+    return {
+      ...(response.status === "fulfilled" ? response.value : {}),
+      origin: originNames[index],
+      id: index,
+    };
+  });
+  res.json(formattedResponse);
 });
 
 app.listen(process.env.PORT, () => {
