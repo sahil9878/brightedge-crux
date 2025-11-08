@@ -53,7 +53,9 @@ app.get("/metrics", async (req, res) => {
   const responses = await Promise.allSettled(originsPromises);
   const formattedResponse = responses.map((response, index) => {
     return {
-      ...(response.status === "fulfilled" ? response.value : {}),
+      ...(response.status === "fulfilled"
+        ? response.value
+        : { isInvalid: true }),
       origin: originNames[index],
       id: index,
     };

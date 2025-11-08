@@ -17,7 +17,8 @@ export type TCrUXMetricValue = { value: number; unit: string };
 
 export type TCrUXMetricData = Record<TCrUXMetrics, TCrUXMetricValue> &
   Record<"id", number> &
-  Record<"origin", string>;
+  Record<"origin", string> &
+  Partial<Record<"isSummaryRow" | "isInvalid", boolean>>;
 
 export type TCrUXData = {
   data: TCrUXMetricData[];
