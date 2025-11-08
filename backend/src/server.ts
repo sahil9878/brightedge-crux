@@ -10,10 +10,9 @@ app.use(express.json());
 app.get("/metrics", async (req, res) => {
   const { origins } = req.query;
   if (!origins) {
-    res.status(400);
+    res.status(400).send();
     return;
   }
-  console.log("origins", origins);
   const originsStr = origins as string;
   const originNames = originsStr.split(",");
   const originsPromises = originNames.map((origin) =>
@@ -30,7 +29,6 @@ app.get("/metrics", async (req, res) => {
         (data: {
           record: { metrics: Record<string, { percentiles: { p75: string } }> };
         }) => {
-          console.log("data.record.metrics", data.record.metrics);
           const formattedMetrics = Object.entries(data.record.metrics).reduce(
             (acc, [metric, details], index) => {
               return {

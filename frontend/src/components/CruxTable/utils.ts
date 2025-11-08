@@ -33,6 +33,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "interaction_to_next_paint",
@@ -41,6 +42,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "first_contentful_paint",
@@ -49,6 +51,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "round_trip_time",
@@ -57,6 +60,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "experimental_time_to_first_byte",
@@ -65,6 +69,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "largest_contentful_paint_image_time_to_first_byte",
@@ -73,6 +78,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "largest_contentful_paint_image_resource_load_delay",
@@ -81,6 +87,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "largest_contentful_paint_image_resource_load_duration",
@@ -89,6 +96,7 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
   {
     field: "largest_contentful_paint_image_element_render_delay",
@@ -97,11 +105,12 @@ export const columns: GridColDef<TCrUXMetricData>[] = [
     renderCell: cruxMetricRenderCell,
     align: "right",
     minWidth: 150,
+    type: "number",
   },
 ];
 
 export function addSumAndAverageRows(data: TCrUXMetricData[]) {
-  if (!Array.isArray(data) || data.length === 0) return data;
+  if (!Array.isArray(data) || data.length <= 1) return data;
 
   // Get all unique metric keys (excluding id and origin)
   const validRows = data.filter((row) => !row.isInvalid);

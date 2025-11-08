@@ -18,12 +18,14 @@ const useCruxStore = create<TCrUXData>((set) => ({
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("New data");
       set(() => ({
         data: data,
       }));
     } catch (error) {
       console.error("Error fetching metrics:", error);
+      set(() => ({
+        data: [],
+      }));
     }
   },
 }));
